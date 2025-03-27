@@ -19,6 +19,7 @@ Code Style and Structure:
 - Use functional components and hooks over class components.
 - Ensure components are modular, reusable, and maintainable.
 - Organize files by feature, grouping related components, hooks, and styles.
+- Always put components on their own folder.
 
 Naming Conventions:
 
@@ -67,6 +68,7 @@ UI and Styling:
 - Use consistent styling, use TWRNC (Tailwind React Native Components) for styling via tw import. Use it for all components. You can use it like this "tw`text-center`". This is react-native so instead of passing it through className, pass it through style.
 - Ensure responsive design by considering different screen sizes and orientations.
 - Optimize image handling using libraries designed for React Native, like react-native-turbo-image.
+- Import tw from the tailwind folder instead of directly from the library.
 
 Best Practices:
 
