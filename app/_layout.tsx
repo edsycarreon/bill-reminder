@@ -1,10 +1,13 @@
 import React, { useEffect, useState, useRef } from "react";
 import { Stack } from "expo-router";
 import { ActivityIndicator, View, Text } from "react-native";
+import { StatusBar } from "expo-status-bar";
 import tw from "twrnc";
 import { useBillStore } from "../stores/billStore";
 import { DebugStorage } from "../components/molecules/DebugStorage";
 import { getAllStorageKeys } from "../utils/storageUtils";
+import { ThemeToggle } from "../components/molecules/ThemeToggle";
+import { ThemeProvider, useTheme } from "../utils/themeContext";
 
 import "../global.css";
 
@@ -15,6 +18,7 @@ function StoreInitializer({ children }: { children: React.ReactNode }) {
   const { _hasHydrated, setHasHydrated } = useBillStore();
   const hydrationIntervalRef = useRef<NodeJS.Timeout | null>(null);
   const hydrationInProgressRef = useRef(false);
+  const { isDarkMode } = useTheme();
 
   useEffect(() => {
     const MAX_ATTEMPTS = 20; // 2 seconds (100ms * 20)
@@ -76,10 +80,16 @@ function StoreInitializer({ children }: { children: React.ReactNode }) {
 
   if (isLoading) {
     return (
-      <View style={tw`flex-1 items-center justify-center bg-gray-100`}>
+      <View
+        style={tw`flex-1 items-center justify-center ${isDarkMode ? "bg-gray-900" : "bg-gray-100"}`}
+      >
         <ActivityIndicator size="large" color="#0f766e" />
-        <Text style={tw`mt-4 text-gray-700`}>Loading your bills...</Text>
-        <Text style={tw`mt-2 text-xs text-gray-500`}>Hydration attempts: {hydrationAttempts}</Text>
+        <Text style={tw`mt-4 ${isDarkMode ? "text-gray-300" : "text-gray-700"}`}>
+          Loading your bills...
+        </Text>
+        <Text style={tw`mt-2 text-xs ${isDarkMode ? "text-gray-400" : "text-gray-500"}`}>
+          Hydration attempts: {hydrationAttempts}
+        </Text>
       </View>
     );
   }
@@ -87,10 +97,33 @@ function StoreInitializer({ children }: { children: React.ReactNode }) {
   return <>{children}</>;
 }
 
-export default function RootLayout() {
+function AppLayout() {
+  const { isDarkMode } = useTheme();
+
+  // Log the current theme state
+  useEffect(() => {
+    console.log("Current theme state:", isDarkMode ? "dark" : "light");
+  }, [isDarkMode]);
+
+  const screenBackground = isDarkMode ? "bg-gray-900" : "bg-gray-50";
+
   return (
-    <StoreInitializer>
-      <Stack>
+    <View style={tw`flex-1 ${screenBackground}`}>
+      <StatusBar style={isDarkMode ? "light" : "dark"} />
+      <Stack
+        screenOptions={{
+          headerStyle: {
+            backgroundColor: isDarkMode ? "#111827" : "#ffffff",
+          },
+          headerTintColor: isDarkMode ? "#f3f4f6" : "#111827",
+          headerShadowVisible: false,
+          headerRight: () => <ThemeToggle style={tw`mr-4`} />,
+          contentStyle: {
+            backgroundColor: isDarkMode ? "#111827" : "#f9fafb",
+          },
+          animation: "fade",
+        }}
+      >
         <Stack.Screen
           name="index"
           options={{
@@ -122,6 +155,26 @@ export default function RootLayout() {
 
       {/* Debug storage component for development and troubleshooting */}
       <DebugStorage />
-    </StoreInitializer>
+    </View>
+  );
+}
+
+// Wrap the entire app with a themed background
+function ThemedApp() {
+  const { isDarkMode } = useTheme();
+  return (
+    <View style={[tw`flex-1`, { backgroundColor: isDarkMode ? "#111827" : "#f9fafb" }]}>
+      <AppLayout />
+    </View>
+  );
+}
+
+export default function RootLayout() {
+  return (
+    <ThemeProvider>
+      <StoreInitializer>
+        <ThemedApp />
+      </StoreInitializer>
+    </ThemeProvider>
   );
 }

@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from "react";
 import { View, ScrollView, TouchableOpacity, RefreshControl, Alert } from "react-native";
-import { useFocusEffect, useRouter } from "expo-router";
+import { useFocusEffect, useRouter, Stack } from "expo-router";
 import { StatusBar } from "expo-status-bar";
 import { Ionicons } from "@expo/vector-icons";
 import tw from "twrnc";
@@ -12,10 +12,12 @@ import { MonthlySummary } from "../components/molecules/MonthlySummary";
 import { EmptyState } from "../components/molecules/EmptyState";
 import { BillWithStatus } from "../types/bill";
 import { requestNotificationPermissions } from "../services/notificationService";
+import { useTheme } from "../utils/themeContext";
 
-export default function HomeScreen() {
+export default function Home() {
   const router = useRouter();
   const [refreshing, setRefreshing] = useState(false);
+  const { isDarkMode } = useTheme();
 
   // Access store state and actions
   const { currentMonth, setCurrentMonth, getMonthlyBills, getTotalStats, markBillPaid } =
@@ -70,19 +72,34 @@ export default function HomeScreen() {
   };
 
   return (
-    <View style={tw`flex-1 bg-gray-50`}>
+    <View style={tw`flex-1 ${isDarkMode ? "bg-gray-900" : "bg-gray-50"}`}>
+      <Stack.Screen
+        options={{
+          headerShown: true,
+          headerStyle: {
+            backgroundColor: isDarkMode ? "#111827" : "#ffffff",
+          },
+          headerTintColor: isDarkMode ? "#f3f4f6" : "#111827",
+          headerShadowVisible: false,
+          title: "Bill Reminder",
+        }}
+      />
       <StatusBar style="dark" />
 
       <ScrollView
-        style={tw`flex-1`}
+        style={tw`flex-1 ${isDarkMode ? "bg-gray-900" : "bg-gray-50"}`}
         contentContainerStyle={tw`p-4 pb-20`}
         refreshControl={<RefreshControl refreshing={refreshing} onRefresh={handleRefresh} />}
       >
         {/* Month selector */}
-        <MonthSelector currentMonth={currentMonth} onMonthChange={handleMonthChange} />
+        <MonthSelector
+          currentMonth={currentMonth}
+          onMonthChange={handleMonthChange}
+          style={tw`mb-4`}
+        />
 
         {/* Monthly summary */}
-        <MonthlySummary stats={stats} />
+        <MonthlySummary stats={stats} style={tw`mb-4`} />
 
         {/* Bills list */}
         {bills.length > 0 ? (

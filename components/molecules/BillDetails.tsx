@@ -46,88 +46,116 @@ export function BillDetails(props: Props) {
     }
   };
 
+  const DetailRow = ({ label, value }: { label: string; value: string | number }) => (
+    <View style={tw`mb-4 flex-row items-center justify-between`}>
+      <Text style={tw`text-base text-gray-500`}>{label}</Text>
+      <Text style={tw`text-base font-semibold text-gray-900`}>{value}</Text>
+    </View>
+  );
+
+  const Card = ({
+    children,
+    className = "",
+  }: {
+    children: React.ReactNode;
+    className?: string;
+  }) => (
+    <View
+      style={[
+        tw`mb-6 rounded-2xl bg-white p-5 ${className}`,
+        {
+          shadowColor: "#000",
+          shadowOffset: { width: 0, height: 2 },
+          shadowOpacity: 0.05,
+          shadowRadius: 4,
+        },
+      ]}
+    >
+      {children}
+    </View>
+  );
+
   return (
     <ScrollView style={[tw`flex-1`, style]} contentContainerStyle={tw`p-4`}>
-      {/* Header with bill name and actions */}
-      <View style={tw`mb-6 flex-row items-center justify-between`}>
+      {/* Header */}
+      <View style={tw`mb-6 flex-row items-start justify-between`}>
         <View style={tw`flex-1`}>
-          <Text style={tw`text-2xl font-bold`}>{bill.name}</Text>
-          {bill.category && <Text style={tw`mt-1 text-gray-600`}>Category: {bill.category}</Text>}
+          <Text style={tw`text-3xl font-bold text-gray-900`}>{bill.name}</Text>
+          {bill.category && (
+            <View style={tw`mt-2`}>
+              <View style={tw`rounded-full bg-gray-100 px-3 py-1`}>
+                <Text style={tw`text-sm font-medium text-gray-600`}>{bill.category}</Text>
+              </View>
+            </View>
+          )}
         </View>
 
         <View style={tw`flex-row`}>
-          <TouchableOpacity style={tw`mr-2 p-2`} onPress={onEdit}>
+          <TouchableOpacity style={tw`mr-3 rounded-full bg-gray-100 p-3`} onPress={onEdit}>
             <Ionicons name="pencil" size={22} color="#0f766e" />
           </TouchableOpacity>
 
-          <TouchableOpacity style={tw`p-2`} onPress={onDelete}>
+          <TouchableOpacity style={tw`rounded-full bg-red-50 p-3`} onPress={onDelete}>
             <Ionicons name="trash-outline" size={22} color="#be123c" />
           </TouchableOpacity>
         </View>
       </View>
 
-      {/* Current status section */}
-      <View style={tw`mb-6 rounded-lg bg-white p-4`}>
-        <Text style={tw`mb-4 text-lg font-semibold`}>Current Status</Text>
+      {/* Current Status */}
+      <Card>
+        <Text style={tw`mb-4 text-xl font-bold text-gray-900`}>Current Status</Text>
 
-        <View style={tw`mb-2 flex-row items-center justify-between`}>
-          <Text style={tw`text-gray-600`}>Amount:</Text>
-          <Text style={tw`text-lg font-bold`}>
-            ${(bill.actualAmount || bill.amount).toFixed(2)}
-          </Text>
-        </View>
+        <DetailRow label="Amount" value={`$${(bill.actualAmount || bill.amount).toFixed(2)}`} />
+        <DetailRow label="Due Date" value={getDueDateText()} />
+        <DetailRow
+          label="Reminder"
+          value={`${bill.reminderDays} day${bill.reminderDays !== 1 ? "s" : ""} before due date`}
+        />
 
-        <View style={tw`mb-2 flex-row items-center justify-between`}>
-          <Text style={tw`text-gray-600`}>Due Date:</Text>
-          <Text style={tw`font-medium`}>{getDueDateText()}</Text>
-        </View>
+        <View style={tw`my-4 h-px bg-gray-100`} />
 
-        <View style={tw`mb-4 flex-row items-center justify-between`}>
-          <Text style={tw`text-gray-600`}>Reminder:</Text>
-          <Text style={tw`font-medium`}>
-            {bill.reminderDays} day{bill.reminderDays !== 1 ? "s" : ""} before due date
-          </Text>
-        </View>
-
-        <View style={tw`my-3 h-px bg-gray-200`} />
-
-        <View style={tw`mb-1 flex-row items-center justify-between`}>
-          <Text style={tw`text-gray-600`}>Status:</Text>
+        <View style={tw`flex-row items-center justify-between`}>
+          <Text style={tw`text-base text-gray-500`}>Payment Status</Text>
           <View style={tw`flex-row items-center`}>
-            <Text style={[tw`mr-2 font-bold`, bill.paid ? tw`text-green-600` : tw`text-red-600`]}>
+            <Text
+              style={[
+                tw`mr-3 text-base font-semibold`,
+                bill.paid ? tw`text-green-600` : tw`text-red-600`,
+              ]}
+            >
               {bill.paid ? "Paid" : "Unpaid"}
             </Text>
 
             <TouchableOpacity
               style={[
-                tw`h-6 w-6 items-center justify-center rounded-full border-2`,
+                tw`h-8 w-8 items-center justify-center rounded-full border-2`,
                 bill.paid ? tw`border-green-500 bg-green-500` : tw`border-gray-300`,
               ]}
               onPress={() => onTogglePaid(!bill.paid)}
             >
-              {bill.paid && <Ionicons name="checkmark" size={14} color="white" />}
+              {bill.paid && <Ionicons name="checkmark" size={20} color="white" />}
             </TouchableOpacity>
           </View>
         </View>
 
         {bill.paid && bill.paidDate && (
-          <Text style={tw`text-right text-sm text-gray-500`}>
+          <Text style={tw`mt-2 text-right text-sm text-gray-500`}>
             Paid on {formatDate(bill.paidDate)}
           </Text>
         )}
-      </View>
+      </Card>
 
-      {/* Description section (if available) */}
-      {bill.description ? (
-        <View style={tw`mb-6 rounded-lg bg-white p-4`}>
-          <Text style={tw`mb-2 text-lg font-semibold`}>Description</Text>
-          <Text style={tw`text-gray-700`}>{bill.description}</Text>
-        </View>
-      ) : null}
+      {/* Description */}
+      {bill.description && (
+        <Card>
+          <Text style={tw`mb-3 text-xl font-bold text-gray-900`}>Description</Text>
+          <Text style={tw`text-base leading-6 text-gray-700`}>{bill.description}</Text>
+        </Card>
+      )}
 
-      {/* Payment history section */}
-      <View style={tw`mb-4 rounded-lg bg-white p-4`}>
-        <Text style={tw`mb-4 text-lg font-semibold`}>Payment History</Text>
+      {/* Payment History */}
+      <Card>
+        <Text style={tw`mb-4 text-xl font-bold text-gray-900`}>Payment History</Text>
 
         {history.length > 0 ? (
           history.map((item, index) => (
@@ -138,17 +166,23 @@ export function BillDetails(props: Props) {
                 index < history.length - 1 && tw`border-b border-gray-100`,
               ]}
             >
-              <Text style={tw`font-medium`}>{formatMonthName(item.month)}</Text>
+              <Text style={tw`text-base font-medium text-gray-700`}>
+                {formatMonthName(item.month)}
+              </Text>
               <View style={tw`flex-row items-center`}>
                 {item.paid ? (
                   <>
                     <Text style={tw`mr-2 font-medium text-green-600`}>Paid</Text>
-                    <Ionicons name="checkmark-circle" size={18} color="#16a34a" />
+                    <View style={tw`rounded-full bg-green-100 p-1`}>
+                      <Ionicons name="checkmark" size={16} color="#16a34a" />
+                    </View>
                   </>
                 ) : (
                   <>
                     <Text style={tw`mr-2 font-medium text-gray-400`}>Not paid</Text>
-                    <Ionicons name="close-circle" size={18} color="#d1d5db" />
+                    <View style={tw`rounded-full bg-gray-100 p-1`}>
+                      <Ionicons name="close" size={16} color="#9ca3af" />
+                    </View>
                   </>
                 )}
               </View>
@@ -157,13 +191,15 @@ export function BillDetails(props: Props) {
         ) : (
           <Text style={tw`py-4 text-center text-gray-500`}>No payment history available</Text>
         )}
-      </View>
+      </Card>
 
-      {/* Creation and update info */}
-      <View style={tw`mt-2`}>
-        <Text style={tw`text-sm text-gray-500`}>Created: {formatDate(bill.createdAt)}</Text>
+      {/* Creation Info */}
+      <View style={tw`mt-2 rounded-lg p-4`}>
+        <Text style={tw`text-sm text-gray-400`}>Created: {formatDate(bill.createdAt)}</Text>
         {bill.updatedAt !== bill.createdAt && (
-          <Text style={tw`text-sm text-gray-500`}>Last updated: {formatDate(bill.updatedAt)}</Text>
+          <Text style={tw`mt-1 text-sm text-gray-400`}>
+            Last updated: {formatDate(bill.updatedAt)}
+          </Text>
         )}
       </View>
     </ScrollView>
