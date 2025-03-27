@@ -2,7 +2,7 @@ import React from "react";
 import { TouchableOpacity } from "react-native";
 import { useRouter } from "expo-router";
 import { Ionicons } from "@expo/vector-icons";
-import tw from "twrnc";
+import { tw } from "../../tailwind";
 
 import { useTheme } from "../../utils/themeContext";
 

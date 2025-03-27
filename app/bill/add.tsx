@@ -2,15 +2,17 @@ import React from "react";
 import { View, Alert } from "react-native";
 import { useRouter } from "expo-router";
 import { StatusBar } from "expo-status-bar";
-import tw from "twrnc";
+import { tw } from "../../tailwind";
 
 import { BillForm } from "../../components/molecules/BillForm";
 import { useBillStore } from "../../stores/billStore";
 import { BillFormValues } from "../../utils/validation";
+import { useTheme } from "../../utils/themeContext";
 
 export default function AddBillScreen() {
   const router = useRouter();
   const { addBill } = useBillStore();
+  const { isDarkMode } = useTheme();
 
   const handleSubmit = async (data: BillFormValues) => {
     try {
@@ -33,8 +35,8 @@ export default function AddBillScreen() {
   };
 
   return (
-    <View style={tw`flex-1 bg-gray-50`}>
-      <StatusBar style="dark" />
+    <View style={tw`flex-1 ${isDarkMode ? "bg-gray-900" : "bg-gray-50"}`}>
+      <StatusBar style={isDarkMode ? "light" : "dark"} />
       <BillForm onSubmit={handleSubmit} onCancel={handleCancel} />
     </View>
   );

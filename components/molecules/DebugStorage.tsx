@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from "react";
 import { View, Text, TouchableOpacity, ScrollView, Modal } from "react-native";
-import tw from "twrnc";
+import { tw } from "../../tailwind";
 import {
   getAllStorageData,
   getAllStorageKeys,

@@ -3,7 +3,7 @@ import { View, ScrollView, TouchableOpacity, RefreshControl, Alert } from "react
 import { useFocusEffect, useRouter, Stack } from "expo-router";
 import { StatusBar } from "expo-status-bar";
 import { Ionicons } from "@expo/vector-icons";
-import tw from "twrnc";
+import { tw } from "../tailwind";
 
 import { useBillStore } from "../stores/billStore";
 import { BillCard } from "../components/molecules/BillCard";

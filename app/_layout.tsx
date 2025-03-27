@@ -2,7 +2,7 @@ import React, { useEffect, useState, useRef } from "react";
 import { Stack } from "expo-router";
 import { ActivityIndicator, View, Text } from "react-native";
 import { StatusBar } from "expo-status-bar";
-import tw from "twrnc";
+import { tw } from "../tailwind";
 import { useBillStore } from "../stores/billStore";
 import { DebugStorage } from "../components/molecules/DebugStorage";
 import { getAllStorageKeys } from "../utils/storageUtils";
@@ -170,6 +170,7 @@ function ThemedApp() {
 }
 
 export default function RootLayout() {
+  const { isDarkMode } = useTheme();
   return (
     <ThemeProvider>
       <StoreInitializer>

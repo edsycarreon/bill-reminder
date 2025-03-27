@@ -1,8 +1,7 @@
 import React from "react";
 import { TouchableOpacity, View, Text } from "react-native";
-import { format } from "date-fns";
-import tw from "twrnc";
 import { Ionicons } from "@expo/vector-icons";
+import { tw } from "../../tailwind";
 
 import { BillWithStatus } from "../../types/bill";
 import { isDueSoon, isOverdue } from "../../utils/dateUtils";

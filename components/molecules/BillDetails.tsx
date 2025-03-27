@@ -1,7 +1,7 @@
 import React from "react";
 import { View, Text, TouchableOpacity, ScrollView } from "react-native";
 import { format } from "date-fns";
-import tw from "twrnc";
+import { tw } from "../../tailwind";
 import { Ionicons } from "@expo/vector-icons";
 
 import { DefaultComponentProps } from "../../types";

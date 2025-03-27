@@ -2,7 +2,7 @@ import React from "react";
 import { View } from "react-native";
 import { useLocalSearchParams, useRouter } from "expo-router";
 import { StatusBar } from "expo-status-bar";
-import tw from "twrnc";
+import { tw } from "../../../tailwind";
 
 import { BillForm } from "../../../components/molecules/BillForm";
 import { useBillStore } from "../../../stores/billStore";
