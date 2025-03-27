@@ -170,7 +170,6 @@ function ThemedApp() {
 }
 
 export default function RootLayout() {
-  const { isDarkMode } = useTheme();
   return (
     <ThemeProvider>
       <StoreInitializer>
