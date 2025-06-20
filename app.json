@@ -1,19 +1,22 @@
 {
   "expo": {
-    "name": "expo-react-native-template",
-    "slug": "expo-react-native-template",
+    "name": "Bill Reminder",
+    "slug": "bill-reminder-v2",
     "version": "1.0.0",
     "orientation": "portrait",
-    "icon": "./assets/images/icon.png",
+    "icon": "./assets/images/bill-reminder.png",
     "scheme": "myapp",
     "userInterfaceStyle": "automatic",
     "newArchEnabled": true,
     "ios": {
-      "supportsTablet": true
+      "supportsTablet": true,
+      "bundleIdentifier": "com.edsybitsy.billreminder"
     },
     "android": {
+      "package": "com.edsybitsy.billreminder",
+      "versionCode": 1,
       "adaptiveIcon": {
-        "foregroundImage": "./assets/images/adaptive-icon.png",
+        "foregroundImage": "./assets/images/bill-reminder.png",
         "backgroundColor": "#ffffff"
       }
     },
@@ -27,7 +30,7 @@
       [
         "expo-splash-screen",
         {
-          "image": "./assets/images/splash-icon.png",
+          "image": "./assets/images/bill-reminder.png",
           "imageWidth": 200,
           "resizeMode": "contain",
           "backgroundColor": "#ffffff"
@@ -36,6 +39,14 @@
     ],
     "experiments": {
       "typedRoutes": true
+    },
+    "extra": {
+      "router": {
+        "origin": false
+      },
+      "eas": {
+        "projectId": "a19ec6be-c983-49f4-8f92-5529276a5e22"
+      }
     }
   }
 }
