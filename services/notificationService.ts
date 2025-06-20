@@ -88,7 +88,7 @@ export const scheduleNotification = async (bill: Bill, currentMonth: string): Pr
       const identifier = await Notifications.scheduleNotificationAsync({
         content: {
           title: `Reminder: ${bill.name} due soon`,
-          body: `${bill.name} for $${bill.amount.toFixed(2)} is due on ${format(dueDate, "MMMM d")}`,
+          body: `${bill.name} for ₱${bill.amount.toFixed(2)} is due on ${format(dueDate, "MMMM d")}`,
           data: { billId: bill.id },
         },
         trigger: {

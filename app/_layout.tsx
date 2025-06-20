@@ -154,7 +154,7 @@ function AppLayout() {
       </Stack>
 
       {/* Debug storage component for development and troubleshooting */}
-      <DebugStorage />
+      {/* <DebugStorage /> */}
     </View>
   );
 }

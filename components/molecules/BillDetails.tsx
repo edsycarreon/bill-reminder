@@ -125,7 +125,7 @@ export function BillDetails(props: Props) {
           Current Status
         </Text>
 
-        <DetailRow label="Amount" value={`$${(bill.actualAmount || bill.amount).toFixed(2)}`} />
+        <DetailRow label="Amount" value={`₱${(bill.actualAmount || bill.amount).toFixed(2)}`} />
         <DetailRow label="Due Date" value={getDueDateText()} />
         <DetailRow
           label="Reminder"

@@ -37,10 +37,10 @@ export function MonthlySummary(props: Props) {
           <Text
             style={tw`mb-1 text-sm font-medium ${isDarkMode ? "text-gray-400" : "text-gray-500"}`}
           >
-            Total Bills
+            Total Amount Due
           </Text>
           <Text style={tw`text-2xl font-bold ${isDarkMode ? "text-gray-100" : "text-gray-900"}`}>
-            ${stats.totalAmount.toFixed(2)}
+            ₱{stats.totalAmount.toFixed(2)}
           </Text>
         </View>
 
@@ -50,7 +50,7 @@ export function MonthlySummary(props: Props) {
           >
             Paid
           </Text>
-          <Text style={tw`text-2xl font-bold text-green-600`}>${stats.paidAmount.toFixed(2)}</Text>
+          <Text style={tw`text-2xl font-bold text-green-600`}>₱{stats.paidAmount.toFixed(2)}</Text>
         </View>
 
         <View style={tw`items-center`}>
@@ -59,7 +59,7 @@ export function MonthlySummary(props: Props) {
           >
             Unpaid
           </Text>
-          <Text style={tw`text-2xl font-bold text-red-600`}>${stats.unpaidAmount.toFixed(2)}</Text>
+          <Text style={tw`text-2xl font-bold text-red-600`}>₱{stats.unpaidAmount.toFixed(2)}</Text>
         </View>
       </View>
 
