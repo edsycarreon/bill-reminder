@@ -127,7 +127,7 @@ export function BillCard(props: Props) {
         </View>
 
         <Text style={tw`text-lg font-bold ${isDarkMode ? "text-gray-100" : "text-gray-900"}`}>
-          ${(bill.actualAmount || bill.amount).toFixed(2)}
+          ₱{(bill.actualAmount || bill.amount).toFixed(2)}
         </Text>
       </View>
 

@@ -9,6 +9,7 @@ import { DefaultComponentProps } from "../../types";
 import { billSchema, BillFormValues } from "../../utils/validation";
 import { Bill } from "../../types/bill";
 import { useTheme } from "../../utils/themeContext";
+import { z } from "zod";
 
 type Props = DefaultComponentProps & {
   initialValues?: Partial<Bill>;
@@ -158,12 +159,12 @@ export function BillForm(props: Props) {
           <Controller
             control={control}
             name="amount"
-            render={({ field: { onChange, value } }) => (
+            render={({ field: { onChange, value, onBlur } }) => (
               <View style={tw`relative`}>
                 <Text
                   style={tw`absolute top-4 left-4 text-lg ${isDarkMode ? "text-gray-400" : "text-gray-500"}`}
                 >
-                  $
+                  ₱
                 </Text>
                 <TextInput
                   style={[
@@ -174,15 +175,9 @@ export function BillForm(props: Props) {
                   placeholder="0.00"
                   placeholderTextColor={isDarkMode ? "#9ca3af" : "#6b7280"}
                   value={value?.toString()}
-                  onChangeText={(text) => {
-                    if (text === "") {
-                      onChange(0);
-                    } else {
-                      const numValue = parseFloat(text);
-                      onChange(isNaN(numValue) ? 0 : numValue);
-                    }
-                  }}
-                  keyboardType="decimal-pad"
+                  onChangeText={onChange}
+                  onBlur={onBlur}
+                  keyboardType="numeric"
                 />
               </View>
             )}
