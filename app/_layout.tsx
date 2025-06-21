@@ -117,7 +117,6 @@ function AppLayout() {
           },
           headerTintColor: isDarkMode ? "#f3f4f6" : "#111827",
           headerShadowVisible: false,
-          headerRight: () => <ThemeToggle style={tw`mr-4`} />,
           contentStyle: {
             backgroundColor: isDarkMode ? "#111827" : "#f9fafb",
           },
