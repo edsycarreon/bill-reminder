@@ -155,7 +155,7 @@ export function BillForm(props: Props) {
           />
         </FormField>
 
-        <FormField label="Amount" required error={errors.amount?.message}>
+        <FormField label="Amount" error={errors.amount?.message}>
           <Controller
             control={control}
             name="amount"
