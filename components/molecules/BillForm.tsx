@@ -200,14 +200,7 @@ export function BillForm(props: Props) {
                     placeholder="1-31"
                     placeholderTextColor={isDarkMode ? "#9ca3af" : "#6b7280"}
                     value={value?.toString()}
-                    onChangeText={(text) => {
-                      if (text === "") {
-                        onChange(1);
-                      } else {
-                        const numValue = parseInt(text, 10);
-                        onChange(isNaN(numValue) ? 1 : numValue);
-                      }
-                    }}
+                    onChangeText={onChange}
                     keyboardType="number-pad"
                   />
                 )}
@@ -230,14 +223,7 @@ export function BillForm(props: Props) {
                     placeholder="Days before"
                     placeholderTextColor={isDarkMode ? "#9ca3af" : "#6b7280"}
                     value={value?.toString()}
-                    onChangeText={(text) => {
-                      if (text === "") {
-                        onChange(1);
-                      } else {
-                        const numValue = parseInt(text, 10);
-                        onChange(isNaN(numValue) ? 1 : numValue);
-                      }
-                    }}
+                    onChangeText={onChange}
                     keyboardType="number-pad"
                   />
                 )}
